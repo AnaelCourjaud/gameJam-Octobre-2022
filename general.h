@@ -194,6 +194,8 @@ typedef struct spriteCourant
     int numImageEnCours;
     int retardateurRalenti;
 
+    bool perso;
+
 } spriteCourant_t;
 
 typedef struct perso{

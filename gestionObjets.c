@@ -178,6 +178,10 @@ int creerSpriteCourant(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t
     maillonSpriteCourant->numImageEnCours = 0;
     maillonSpriteCourant->retardateurRalenti = maillonSpriteCourant->spriteDeBase->ralenti;
 
+    if(indicePNG == indiceRobotGrosattaque){
+        maillonSpriteCourant->perso = true;
+    }
+
     listeCourants[emplacementLibreDansListeCourants] = maillonSpriteCourant;
 
     return emplacementLibreDansListeCourants;

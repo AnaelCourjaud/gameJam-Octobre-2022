@@ -1,6 +1,5 @@
 #include "affichage.h"
 
-
 /*
 void creationTexte(char texte[], char style[], char police[], SDL_Renderer *renderer, int taille, int x, int y, int opacite)
 {
@@ -65,8 +64,8 @@ void animation(SDL_Rect window_dimensions, SDL_Renderer *renderer, spriteCourant
             source.w = listeCourants[i]->spriteDeBase->wImageSprite;
             source.h = listeCourants[i]->spriteDeBase->hImageSprite;
 
-            destination.x = (int)(((float)window_dimensions.w * listeCourants[i]->posXfenetreVirtuelle)/(float)wFenetreVirtuelle);
-            destination.y = (int)(((float)window_dimensions.h * listeCourants[i]->posYfenetreVirtuelle)/(float)hFenetreVirtuelle);
+            destination.x = (int)(((float)window_dimensions.w * listeCourants[i]->posXfenetreVirtuelle) / (float)wFenetreVirtuelle);
+            destination.y = (int)(((float)window_dimensions.h * listeCourants[i]->posYfenetreVirtuelle) / (float)hFenetreVirtuelle);
             destination.w = window_dimensions.w * listeCourants[i]->spriteDeBase->wCoefReductionDestination;
             destination.h = window_dimensions.h * listeCourants[i]->spriteDeBase->hCoefReductionDestination;
 
@@ -75,8 +74,9 @@ void animation(SDL_Rect window_dimensions, SDL_Renderer *renderer, spriteCourant
             {
                 listeCourants[i]->numImageEnCours++;
                 if (listeCourants[i]->numImageEnCours >= listeCourants[i]->spriteDeBase->nbrImagesHorizontales * listeCourants[i]->spriteDeBase->nbrImagesVerticales)
-                {   
-                    if(listeCourants[i]->spriteDeBase->animationInfinie == 0){
+                {
+                    if (listeCourants[i]->spriteDeBase->animationInfinie == 0)
+                    {
                         listeCourants[i]->animationTerminee = 1;
                     }
                     listeCourants[i]->numImageEnCours = 0;
@@ -88,9 +88,15 @@ void animation(SDL_Rect window_dimensions, SDL_Renderer *renderer, spriteCourant
                 listeCourants[i]->retardateurRalenti--;
             }
 
-            SDL_RenderCopy(renderer, listeCourants[i]->spriteDeBase->textureSprite, &source, &destination);
+            if (listeCourants[i]->perso)
+            {
+                SDL_RenderCopy(renderer, listeCourants[i]->spriteDeBase->textureSprite, &source, &destination);
+            }
+            else
+            {
+                SDL_RenderCopy(renderer, listeCourants[i]->spriteDeBase->textureSprite, &source, &destination);
+            }
             // printf("apres copy\n");
-            
         }
     }
 }
