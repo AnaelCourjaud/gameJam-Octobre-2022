@@ -27,7 +27,7 @@
 //     }
 // }
 
-// void creerAttaquant(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], combattant_t *tableauCombattants[NBRMAXCOMBATTANTS], typeCombattant_t typeCombattant, etatCombattant_t etatArrivee, int indiceEmplacement, float proportionPosX, float proportionPosY, int modeAffichage)
+// void creerPersonnage(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], combattant_t *tableauCombattants[NBRMAXCOMBATTANTS], typeCombattant_t typeCombattant, etatCombattant_t etatArrivee, int indiceEmplacement, float proportionPosX, float proportionPosY, int modeAffichage)
 // {
 
 //     // printf("début créer estAttaquant\n");
@@ -99,11 +99,20 @@
 //     // }
 //     if (modeAffichage == 1)
 //     {
-//         emplacementestAttaquant->spriteCourant = listeCourants[indiceEmplacementDansListeCourants];
-//     }
+//         emplacementestAttaquavoid
 
 //     tableauCombattants[indiceEmplacement] = emplacementestAttaquant;
 // }
+
+
+void faireAvancerPerso(perso_t *listePersos[NBRMAXPERSOS]){
+    for(int i=0; i<NBRMAXPERSOS; i++){
+        if(listePersos[i] != NULL){
+        listePersos[i]->spriteCourant->xProportionPosFenetre += listePersos[i]->speedX;
+        listePersos[i]->spriteCourant->yProportionPosFenetre += listePersos[i]->speedY;
+        }
+    }
+}
 
 int creerSpriteCourant(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], indicesPNGs indicePNG, float proportionPosX, float proportionPosY)
 {

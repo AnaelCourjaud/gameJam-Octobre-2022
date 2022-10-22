@@ -26,6 +26,7 @@ int main()
 
     spriteBase_t *spritesDeBase[NBRTEXTURES];
     spriteCourant_t *listeCourants[tailleMaxSpritesCourants]; // le maximum de sprites courants à afficher
+    perso_t *listePersos[NBRMAXPERSOS];
     // combattant_t *listeCombattants[NBRMAXCOMBATTANTS];
 
     // int listeCompo[20][3] = {{BUGFIRE, NULL, NULL}, {FLY, NULL, NULL}, {MANTIS, NULL, NULL}, {BUGFIRE, BUGFIRE, NULL}, {FLY, FLY, NULL}, {MANTIS, MANTIS, NULL}, {BUGFIRE, FLY, NULL}, {BUGFIRE, MANTIS, NULL}, {FLY, MANTIS, NULL}, {BUGFIRE, BUGFIRE, BUGFIRE}, {FLY, FLY, FLY}, {MANTIS, MANTIS, MANTIS}, {BUGFIRE, BUGFIRE, FLY}, {BUGFIRE, BUGFIRE, MANTIS}, {FLY, FLY, BUGFIRE}, {FLY, FLY, MANTIS}, {MANTIS, MANTIS, BUGFIRE}, {MANTIS, MANTIS, FLY}, {BUGFIRE, FLY, MANTIS}};
@@ -78,7 +79,7 @@ int main()
     // ********************************************************************************
     // ********************************************************************************
 
-    init(window, renderer, spritesDeBase, listeCourants);
+    init(window, renderer, spritesDeBase, listeCourants, listePersos);
 
     SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
     SDL_Event event;                // c'est le type IMPORTANT !!
@@ -114,6 +115,10 @@ int main()
             case SDL_QUIT:
                 interessant = 1;        // Un évènement simple, on a cliqué sur la x de la fenêtre
                 program_on = SDL_FALSE; // Il est temps d'arrêter le programme
+                break;
+            case SDL_MOUSEBUTTONUP:
+                
+
                 break;
             case SDL_KEYUP: // Le type de event est : une touche relâchée
 
@@ -155,8 +160,18 @@ int main()
                         creerSpriteCourant(spritesDeBase, listeCourants, indicePasserelleAnimee, 0.0, 0.0);
                         creerSpriteCourant(spritesDeBase, listeCourants, indiceBatiment2, -0.12*wFenetreVirtuelle, 0.27*hFenetreVirtuelle);
                         // creationVague(spritesDeBase, listeCombattants, listeCourants, modeAffichage);
+
+                        perso_t *maillonPerso = malloc(sizeof(perso_t));
+                        maillonPerso->speedX= 10.0;
+                        maillonPerso->speedY=0.0;
+
+                        int indiceEmplacementDansListeCourants = creerSpriteCourant(spritesDeBase, listeCourants, indiceRobotGrosattaque, 50.0, 50.0);
+                        maillonPerso->spriteCourant = listeCourants[indiceEmplacementDansListeCourants];
+                        listePersos[0]=maillonPerso;
+                        printf("salut\n");
+
                         // numeroDeVague++;
-                        ETATJEU = ARRIVEEVAGUE;
+                        ETATJEU = JEU;
                     }
                     interessant = 1;
                     changermusique = 1;
@@ -231,34 +246,18 @@ int main()
             animation(window, renderer, listeCourants);
 
             break;
-        case ARRIVEEVAGUE:
+        case JEU:
             // printf("ARRIVEEVAGUE\n");
             // printf("vague\n");
             // if (changermusique == 1)
             // {
             //     Mix_PlayMusic(jeu, -1);
             // }
+
           animation(window, renderer, listeCourants);
-            break;
-        case ATTENTECHOIXRIPOSTE:
-            // printf("attente riposte\n");
-            animation(window, renderer, listeCourants);
-            break;
-        case ARRIVEERIPOSTE:
-            // printf("ARRIVEERIPOSTE\n");
-           
-            break;
-        case ATTAQUESDEFENSEUR:
-            // printf("attaques défenseur\n");
-           
-            break;
-        case ANIMATIONMORT:
-            
-            break;
-        case FINDEVAGUE:
-            // printf("fin de vague\n");
-            animation(window, renderer, listeCourants);
-            ETATJEU = FINJEU;
+          printf("resalut\n");
+          faireAvancerPerso(listePersos);
+          printf("resalgzrgzrut\n");
             break;
         case FINJEU:
             // printf("fin du jeu\n");
@@ -274,7 +273,7 @@ int main()
 
         changermusique = 0;
 
-        if((ETATJEU >= ARRIVEEVAGUE && ETATJEU <= ANIMATIONMORT) || (ETATJEU == ATTAQUESDEFENSEUR)){
+        if(ETATJEU == JEU){
             faireAvancerParalaxe(listeCourants);
         }
 

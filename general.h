@@ -14,22 +14,36 @@
 
 // extern int ETATJEU;
 
-#define ERREUR 10
-#define ACCUEIL 20
-// #define TRAIN 130
-#define LORE1 30
-#define LORE2 40
-#define LORE3 50
-#define ARRIVEEVAGUE 60
-#define ATTENTECHOIXRIPOSTE 70
-#define ARRIVEERIPOSTE 80
-#define ATTAQUESDEFENSEUR 120
-#define ANIMATIONMORT 90
-#define FINDEVAGUE 100
-#define FINJEU 110
+
+typedef enum typeControle{
+    ERREUR,
+    ACCUEIL,
+    LORE1,
+    LORE2,
+    LORE3,
+    JEU,
+    FINJEU
+} typesControles_t;
+
+// #define ERREUR 10
+// #define ACCUEIL 20
+// // #define TRAIN 130
+// #define LORE1 30
+// #define LORE2 40
+// #define LORE3 50
+// #define ARRIVEEVAGUE 60
+// #define ATTENTECHOIXRIPOSTE 70
+// #define ARRIVEERIPOSTE 80
+// #define ATTAQUESDEFENSEUR 120
+// #define ANIMATIONMORT 90
+// #define FINDEVAGUE 100
+// #define FINJEU 110
 
 #define NBRTEXTURES 29
-#define nbrPolices 2
+// #define nbrPolices 2
+
+#define NBRMAXPERSOS 20
+
 
 //#define nombreFichier 18
 #define tailleMaxFichiers 50
@@ -41,31 +55,31 @@
 #define TAILLEMAX 4
 #define tailleMaxSpritesCourants 20
 
-#define NBENNEMIVAGUE 3 // nb d'ennemis au debut de la vague
-#define NBRMAXCOMBATTANTS 10
-#define NBRTYPEINSECTES 3
-#define NBCOMPO 19 ///----/!\ 34 quand 4 ennemis par vague
+// #define NBENNEMIVAGUE 3 // nb d'ennemis au debut de la vague
+// #define NBRMAXCOMBATTANTS 10
+// #define NBRTYPEINSECTES 3
+// #define NBCOMPO 19 ///----/!\ 34 quand 4 ennemis par vague
 
-#define NBPERCEPTION 19
-#define PERCEPTIONMAX 35
-#define NBDEFENSES 3
-#define TAILLECHAR 5
+// #define NBPERCEPTION 19
+// #define PERCEPTIONMAX 35
+// #define NBDEFENSES 3
+// #define TAILLECHAR 5
 
-#define NBRATTAQUESDEFENSEURAVANTMORT 3
+// #define NBRATTAQUESDEFENSEURAVANTMORT 3
 
-#define NBRDEVAGUES 1
-#define NBRVAGUESTRAIN 1000000
-#define NBRCOUPSMAXENREGISTRABLES 100
+// #define NBRDEVAGUES 1
+// #define NBRVAGUESTRAIN 1000000
+// #define NBRCOUPSMAXENREGISTRABLES 100
 
 #define wFenetreVirtuelle 1500 //!\//
 #define hFenetreVirtuelle 1000
 
-#define xSponeDefenseur0 125 //!\//
-#define ySponeDefenseur0 775
-#define xSponeDefenseur1 125
-#define ySponeDefenseur1 770
-#define xSponeDefenseur2 125
-#define ySponeDefenseur2 640
+// #define xSponeDefenseur0 125 //!\//
+// #define ySponeDefenseur0 775
+// #define xSponeDefenseur1 125
+// #define ySponeDefenseur1 770
+// #define xSponeDefenseur2 125
+// #define ySponeDefenseur2 640
 
 typedef enum typePNG
 {
@@ -175,6 +189,14 @@ typedef struct spriteCourant
     int retardateurRalenti;
 
 } spriteCourant_t;
+
+typedef struct perso{
+    struct spriteCourant *spriteCourant;
+
+    float speedX;
+    float speedY;
+
+} perso_t;
 
 // typedef struct combattant
 // {

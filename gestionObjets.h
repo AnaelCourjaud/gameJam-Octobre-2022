@@ -9,7 +9,7 @@
 
 // void creerAttaquant(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], combattant_t *tableauCombattants[NBRMAXCOMBATTANTS], typeCombattant_t typeCombattant, etatCombattant_t etatArrivee, int indiceEmplacement, float posX, float posY, int modeAffichage);
 int creerSpriteCourant(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], indicesPNGs indicePNG, float posX, float posY);
-
+void faireAvancerPerso(perso_t *listePersos[NBRMAXPERSOS]);
 void cleanListeCourants(spriteCourant_t *listeCourants[tailleMaxSpritesCourants]);
 // void cleanCombattantsDeListeCourants(spriteCourant_t *listeCourants[tailleMaxSpritesCourants]);
 // void cleanListeCombattants(combattant_t *tableauCombattants[NBRMAXCOMBATTANTS]);

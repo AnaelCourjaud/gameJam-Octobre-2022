@@ -1,6 +1,6 @@
 #include "initialisation.h"
 
-void init(SDL_Window *window, SDL_Renderer *renderer, spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants])
+void init(SDL_Window *window, SDL_Renderer *renderer, spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], perso_t *listePersos[NBRMAXPERSOS])
 {
 
     ///////////// Chargement des polices et des textures et stockage des pointeurs dans les tableaux
@@ -30,8 +30,8 @@ void init(SDL_Window *window, SDL_Renderer *renderer, spriteBase_t *spritesDeBas
 
         spritesDeBase[i]->indicePNG = i;
         // spritesDeBase[i]->animation = 1;
-        spritesDeBase[i]->nbrImagesHorizontales = 7;
-        spritesDeBase[i]->nbrImagesVerticales = 4;
+        // spritesDeBase[i]->nbrImagesHorizontales = 7;
+        // spritesDeBase[i]->nbrImagesVerticales = 4;
         spritesDeBase[i]->ralenti = 1;
         spritesDeBase[i]->animationInfinie = 1;
 
@@ -274,13 +274,13 @@ void init(SDL_Window *window, SDL_Renderer *renderer, spriteBase_t *spritesDeBas
         listeCourants[i] = NULL; // malloc(sizeof(spriteCourant_t));
     }
 
-    // *******************************Initialisation de la liste des combattants ************************
+    // *******************************Initialisation de la liste des personnages ************************
     // **************************************************************************************************
 
-    // for (int i = 0; i < NBRMAXCOMBATTANTS; i++)
-    // {
-    //     listeCombattants[i] = NULL; // malloc(sizeof(combattant_t));
-    // }
+    for (int i = 0; i < NBRMAXPERSOS; i++)
+    {
+        listePersos[i] = NULL; // malloc(sizeof(combattant_t));
+    }
 
     // ******************************* récupération des polices + stockage + test  *********************
     // **************************************************************************************************
