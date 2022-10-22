@@ -44,6 +44,7 @@ typedef enum typeControle{
 // #define nbrPolices 2
 
 #define NBRMAXPERSOS 20
+#define INDICEPERSO 0
 
 
 //#define nombreFichier 18
@@ -157,6 +158,9 @@ typedef struct spriteBase
     float speedDecorX;
     float speedDecorY;
 
+    float speedGeneral;
+    float rayonHitboxDestination;
+
     // int animation;
     int animationInfinie;
     int nbrImagesHorizontales;
@@ -197,6 +201,8 @@ typedef struct perso{
 
     float speedPersoX;
     float speedPersoY;
+    float objectifXfenetreVirtuelle;
+    float objectifYfenetreVirtuelle;
     bool goSeDeplacer;
 
 } perso_t;

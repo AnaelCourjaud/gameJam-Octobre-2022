@@ -49,10 +49,11 @@ void creationTexte(char texte[], char style[], char police[], SDL_Renderer *rend
 }
 */
 
-void animation(SDL_Window *window, SDL_Renderer *renderer, spriteCourant_t *listeCourants[tailleMaxSpritesCourants])
+void animation(SDL_Rect window_dimensions, SDL_Renderer *renderer, spriteCourant_t *listeCourants[tailleMaxSpritesCourants])
 {
-    SDL_Rect window_dimensions = {0}, source = {0}, destination = {0};
-    SDL_GetWindowSize(window, &window_dimensions.w, &window_dimensions.h); // Récupération des dimensions de la fenêtre
+    // SDL_Rect window_dimensions = {0}, source = {0}, destination = {0};
+    // SDL_GetWindowSize(window, &window_dimensions.w, &window_dimensions.h); // Récupération des dimensions de la fenêtre
+    SDL_Rect source = {0}, destination = {0};
 
     // printf("debut animation\n");
     for (int i = 0; i < tailleMaxSpritesCourants; i++)
@@ -64,8 +65,8 @@ void animation(SDL_Window *window, SDL_Renderer *renderer, spriteCourant_t *list
             source.w = listeCourants[i]->spriteDeBase->wImageSprite;
             source.h = listeCourants[i]->spriteDeBase->hImageSprite;
 
-            destination.x = (window_dimensions.w * listeCourants[i]->posXfenetreVirtuelle)/wFenetreVirtuelle;
-            destination.y = (window_dimensions.h * listeCourants[i]->posYfenetreVirtuelle)/hFenetreVirtuelle;
+            destination.x = (int)(((float)window_dimensions.w * listeCourants[i]->posXfenetreVirtuelle)/(float)wFenetreVirtuelle);
+            destination.y = (int)(((float)window_dimensions.h * listeCourants[i]->posYfenetreVirtuelle)/(float)hFenetreVirtuelle);
             destination.w = window_dimensions.w * listeCourants[i]->spriteDeBase->wCoefReductionDestination;
             destination.h = window_dimensions.h * listeCourants[i]->spriteDeBase->hCoefReductionDestination;
 

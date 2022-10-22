@@ -26,7 +26,7 @@ void init(SDL_Window *window, SDL_Renderer *renderer, spriteBase_t *spritesDeBas
         spritesDeBase[i] = malloc(sizeof(spriteBase_t));
         spritesDeBase[i]->textureSprite = IMG_LoadTexture(renderer, nomFichiers[i]);
         if (spritesDeBase[i]->textureSprite == NULL)
-            end_sdl(0, "Echec du chargement de l'image dans la texture", window, renderer, spritesDeBase, listeCourants);
+            end_sdl(0, "Echec du chargement de l'image dans la texture", window, renderer, spritesDeBase, listeCourants, listePersos);
 
         spritesDeBase[i]->indicePNG = i;
         // spritesDeBase[i]->animation = 1;
@@ -186,6 +186,7 @@ void init(SDL_Window *window, SDL_Renderer *renderer, spriteBase_t *spritesDeBas
                 spritesDeBase[i]->nbrImagesHorizontales = 7;
                 spritesDeBase[i]->nbrImagesVerticales = 1;
                 spritesDeBase[i]->ralenti = 2;
+                spritesDeBase[i]->rayonHitboxDestination = 10.0;
             }
             else if (i == indiceRobotGrosMort)
             {
@@ -296,7 +297,7 @@ void init(SDL_Window *window, SDL_Renderer *renderer, spriteBase_t *spritesDeBas
 void end_sdl(char ok,            // fin anormale : ok = 0 ; normale ok = 1
              char const *msg,    // message à afficher
              SDL_Window *window, // fenêtre à fermer
-             SDL_Renderer *renderer, spriteBase_t *spritesDebase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants])
+             SDL_Renderer *renderer, spriteBase_t *spritesDebase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], perso_t *listePersos[NBRMAXPERSOS])
 { // renderer à fermer
     char msg_formated[255];
     int l;
@@ -319,6 +320,14 @@ void end_sdl(char ok,            // fin anormale : ok = 0 ; normale ok = 1
     {                              // Destruction si nécessaire de la fenêtre
         SDL_DestroyWindow(window); // Attention : on suppose que les NULL sont maintenus !!
         window = NULL;
+    }
+
+    // ******************************* free du tableau liste persos  ************************************
+    // **************************************************************************************************
+
+    for (int i = 0; i < NBRMAXPERSOS; i++)
+    {
+        free(listePersos[i]);
     }
 
     // ******************************* free du tableau sprites courants *********************************

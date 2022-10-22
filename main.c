@@ -66,13 +66,13 @@ int main()
 
     window = SDL_CreateWindow("Insects_VS_Mechas", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, tailleFenetre.w, tailleFenetre.h, SDL_WINDOW_RESIZABLE);
     if (window == NULL)
-        end_sdl(0, "ERROR WINDOW CREATION", window, renderer, spritesDeBase, listeCourants);
+        end_sdl(0, "ERROR WINDOW CREATION", window, renderer, spritesDeBase, listeCourants, listePersos);
 
     //  ************************* Création du renderer *************************
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (renderer == NULL)
-        end_sdl(0, "ERROR RENDERER CREATION", window, renderer, spritesDeBase, listeCourants);
+        end_sdl(0, "ERROR RENDERER CREATION", window, renderer, spritesDeBase, listeCourants, listePersos);
 
     // ********************************************************************************
     // ********************************************************************************
@@ -96,6 +96,9 @@ int main()
 
     while (program_on)
     {
+        SDL_Rect window_dimensions = {0};
+        SDL_GetWindowSize(window, &window_dimensions.w, &window_dimensions.h);
+
         // Voilà la boucle des évènements
         bool interessant = false;
         // int choixFait = 0;
@@ -110,18 +113,41 @@ int main()
             switch (event.type)
             {
             case SDL_QUIT:
-                interessant = true;        // Un évènement simple, on a cliqué sur la x de la fenêtre
+                interessant = true;     // Un évènement simple, on a cliqué sur la x de la fenêtre
                 program_on = SDL_FALSE; // Il est temps d'arrêter le programme
                 break;
             case SDL_MOUSEBUTTONUP:
                 if (event.button.button == SDL_BUTTON_RIGHT)
                 {
+                    // SDL_Rect window_dimensions = {0};
+                    // SDL_GetWindowSize(window, &window_dimensions.w, &window_dimensions.h);
+
+                    listePersos[INDICEPERSO]->spriteCourant->spriteDeBase->speedGeneral = 9.0;
                     SDL_GetMouseState(&posXsourisFenetreReelle, &posYsourisFenetreReelle);
                     printf("posX : %d posY : %d\n", posXsourisFenetreReelle, posYsourisFenetreReelle);
-                    listePersos[0]->goSeDeplacer = true;
+                    listePersos[INDICEPERSO]->goSeDeplacer = true;
 
+                    float posXsourisFenetreVirtuelle = posXsourisFenetreReelle * ((float)wFenetreVirtuelle / (float)window_dimensions.w);
+                    float posYsourisFenetreVirtuelle = posYsourisFenetreReelle * ((float)hFenetreVirtuelle / (float)window_dimensions.h);
+                    listePersos[INDICEPERSO]->objectifXfenetreVirtuelle = posXsourisFenetreVirtuelle;
+                    listePersos[INDICEPERSO]->objectifYfenetreVirtuelle = posYsourisFenetreVirtuelle;
 
+                    printf("posXV : %f posYV : %f\n", posXsourisFenetreVirtuelle, posYsourisFenetreVirtuelle);
 
+                    float XcentreHitboxPerso = listePersos[INDICEPERSO]->spriteCourant->posXfenetreVirtuelle + listePersos[INDICEPERSO]->spriteCourant->spriteDeBase->wCoefReductionDestination * wFenetreVirtuelle * 0.5;
+                    float YcentreHitboxPerso = listePersos[INDICEPERSO]->spriteCourant->posYfenetreVirtuelle + listePersos[INDICEPERSO]->spriteCourant->spriteDeBase->hCoefReductionDestination * hFenetreVirtuelle * 0.5;
+
+                    float XrelatifClic = posXsourisFenetreVirtuelle - XcentreHitboxPerso;
+                    float YrelatifClic = posYsourisFenetreVirtuelle - YcentreHitboxPerso;
+
+                    printf("xrelatif : %f yrelatif : %f\n", XrelatifClic, YrelatifClic);
+
+                    float coefXYrelatif = YrelatifClic / XrelatifClic;
+                    printf("coef : %f \n", coefXYrelatif);
+
+                    listePersos[INDICEPERSO]->speedPersoX = (float)((double)XrelatifClic / fabs((double)XrelatifClic)) * sqrt((listePersos[INDICEPERSO]->spriteCourant->spriteDeBase->speedGeneral * listePersos[INDICEPERSO]->spriteCourant->spriteDeBase->speedGeneral) / (1 + coefXYrelatif * coefXYrelatif));
+                    listePersos[INDICEPERSO]->speedPersoY = listePersos[INDICEPERSO]->speedPersoX * coefXYrelatif;
+                    printf("speedPersoX : %f speedPersoY : %f\n", listePersos[INDICEPERSO]->speedPersoX, listePersos[INDICEPERSO]->speedPersoY);
 
                     interessant = true;
                 }
@@ -138,25 +164,25 @@ int main()
                 case SDLK_SPACE:
                     if (ETATJEU == ACCUEIL)
                     {
-                    //     cleanListeCourants(listeCourants);
-                    //     creerSpriteCourant(spritesDeBase, listeCourants, indiceLore1, 0, 0);
-                    //     // numeroDeVague = 0;
-                    //     ETATJEU = LORE1;
-                    // }
-                    // else if (ETATJEU == LORE1)
-                    // {
-                    //     cleanListeCourants(listeCourants);
-                    //     creerSpriteCourant(spritesDeBase, listeCourants, indiceLore2, 0, 0);
-                    //     ETATJEU = LORE2;
-                    // }
-                    // else if (ETATJEU == LORE2)
-                    // {
-                    //     cleanListeCourants(listeCourants);
-                    //     creerSpriteCourant(spritesDeBase, listeCourants, indiceLore3, 0, 0);
-                    //     ETATJEU = LORE3;
-                    // }
-                    // else if (ETATJEU == LORE3)
-                    // {
+                        //     cleanListeCourants(listeCourants);
+                        //     creerSpriteCourant(spritesDeBase, listeCourants, indiceLore1, 0, 0);
+                        //     // numeroDeVague = 0;
+                        //     ETATJEU = LORE1;
+                        // }
+                        // else if (ETATJEU == LORE1)
+                        // {
+                        //     cleanListeCourants(listeCourants);
+                        //     creerSpriteCourant(spritesDeBase, listeCourants, indiceLore2, 0, 0);
+                        //     ETATJEU = LORE2;
+                        // }
+                        // else if (ETATJEU == LORE2)
+                        // {
+                        //     cleanListeCourants(listeCourants);
+                        //     creerSpriteCourant(spritesDeBase, listeCourants, indiceLore3, 0, 0);
+                        //     ETATJEU = LORE3;
+                        // }
+                        // else if (ETATJEU == LORE3)
+                        // {
                         cleanListeCourants(listeCourants);
                         // cleanListeCombattants(listeCombattants);
                         creerSpriteCourant(spritesDeBase, listeCourants, indiceFond3, 0.0, 0.0);
@@ -168,14 +194,16 @@ int main()
                         creerSpriteCourant(spritesDeBase, listeCourants, indiceBatiment2, -180.0, 270.0);
                         // creationVague(spritesDeBase, listeCombattants, listeCourants, modeAffichage);
 
-                        perso_t *maillonPerso = malloc(sizeof(perso_t));
-                        maillonPerso->speedPersoX = 5.3;
-                        maillonPerso->speedPersoY = 1.2;
-                        maillonPerso->goSeDeplacer = true;
+                        creerPersonnage(spritesDeBase, listeCourants, listePersos, 50.0, 500.0);
 
-                        int indiceEmplacementDansListeCourants = creerSpriteCourant(spritesDeBase, listeCourants, indiceRobotGrosattaque, 50.0, 50.0);
-                        maillonPerso->spriteCourant = listeCourants[indiceEmplacementDansListeCourants];
-                        listePersos[0] = maillonPerso;
+                        // perso_t *maillonPerso = malloc(sizeof(perso_t));
+                        // maillonPerso->speedPersoX = 5.3;
+                        // maillonPerso->speedPersoY = 1.2;
+                        // maillonPerso->goSeDeplacer = true;
+
+                        // int indiceEmplacementDansListeCourants = creerSpriteCourant(spritesDeBase, listeCourants, indiceRobotGrosattaque, 50.0, 50.0);
+                        // maillonPerso->spriteCourant = listeCourants[indiceEmplacementDansListeCourants];
+                        // listePersos[0] = maillonPerso;
                         // printf("salut\n");
 
                         // numeroDeVague++;
@@ -226,7 +254,7 @@ int main()
             {
                 Mix_PlayMusic(accueil, -1);
             }
-            animation(window, renderer, listeCourants);
+            animation(window_dimensions, renderer, listeCourants);
             break;
         // case LORE1:
         //     // printf("lore1\n");
@@ -262,16 +290,16 @@ int main()
             //     Mix_PlayMusic(jeu, -1);
             // }
 
-            animation(window, renderer, listeCourants);
+            animation(window_dimensions, renderer, listeCourants);
             //   printf("resalut\n");
-            faireAvancerPerso(listePersos);
+            faireAvancerPersos(listePersos);
             //   printf("resalgzrgzrut\n");
             break;
         case FINJEU:
             // printf("fin du jeu\n");
             cleanListeCourants(listeCourants);
             creerSpriteCourant(spritesDeBase, listeCourants, indiceEcranFin, 0.0, 0.0);
-            animation(window, renderer, listeCourants);
+            animation(window_dimensions, renderer, listeCourants);
             // printf("FIN");
             break;
         default:
@@ -297,7 +325,7 @@ int main()
     }
 
     // printf(" juste avant end_sdl\n");
-    end_sdl(1, "FIN NORMALE", window, renderer, spritesDeBase, listeCourants);
+    end_sdl(1, "FIN NORMALE", window, renderer, spritesDeBase, listeCourants, listePersos);
     Mix_CloseAudio();
     return 0;
 }

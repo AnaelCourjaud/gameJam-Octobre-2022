@@ -27,8 +27,17 @@
 //     }
 // }
 
-// void creerPersonnage(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], combattant_t *tableauCombattants[NBRMAXCOMBATTANTS], typeCombattant_t typeCombattant, etatCombattant_t etatArrivee, int indiceEmplacement, float proportionPosX, float proportionPosY, int modeAffichage)
-// {
+void creerPersonnage(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], perso_t *listePersos[NBRMAXPERSOS], float posXfenetreVirtuelle, float posYfenetreVirtuelle)
+{
+    perso_t *maillonPerso = malloc(sizeof(perso_t));
+    maillonPerso->speedPersoX = 0.0;
+    maillonPerso->speedPersoY = 0.0;
+    maillonPerso->goSeDeplacer = false;
+
+    int indiceEmplacementDansListeCourants = creerSpriteCourant(spritesDeBase, listeCourants, indiceRobotGrosattaque, posXfenetreVirtuelle, posYfenetreVirtuelle);
+    maillonPerso->spriteCourant = listeCourants[indiceEmplacementDansListeCourants];
+    listePersos[INDICEPERSO] = maillonPerso;
+}
 
 //     // printf("début créer estAttaquant\n");
 
@@ -98,13 +107,13 @@
 //     //     printf("Erreur dans la création de l'estAttaquant\n");
 //     // }
 //     if (modeAffichage == 1)
-//     {
+//     {wFenetreVirtuelle
 //         emplacementestAttaquavoid
 
 //     tableauCombattants[indiceEmplacement] = emplacementestAttaquant;
 // }
 
-void faireAvancerPerso(perso_t *listePersos[NBRMAXPERSOS])
+void faireAvancerPersos(perso_t *listePersos[NBRMAXPERSOS])
 {
     for (int i = 0; i < NBRMAXPERSOS; i++)
     {
@@ -114,9 +123,34 @@ void faireAvancerPerso(perso_t *listePersos[NBRMAXPERSOS])
             {
                 listePersos[i]->spriteCourant->posXfenetreVirtuelle += listePersos[i]->speedPersoX;
                 listePersos[i]->spriteCourant->posYfenetreVirtuelle += listePersos[i]->speedPersoY;
+
+                // vérif que arrivée à bonne destination
+
+                float XcentreHitboxPerso = listePersos[i]->spriteCourant->posXfenetreVirtuelle + listePersos[i]->spriteCourant->spriteDeBase->wCoefReductionDestination * wFenetreVirtuelle * 0.5;
+                float YcentreHitboxPerso = listePersos[i]->spriteCourant->posYfenetreVirtuelle + listePersos[i]->spriteCourant->spriteDeBase->hCoefReductionDestination * hFenetreVirtuelle * 0.5;
+
+                if (collisionHitboxPoint(XcentreHitboxPerso, YcentreHitboxPerso, listePersos[i]->objectifXfenetreVirtuelle, listePersos[i]->objectifYfenetreVirtuelle, listePersos[i]->spriteCourant->spriteDeBase->rayonHitboxDestination))
+                {
+                    listePersos[i]->goSeDeplacer = false;
+                }
+                //
             }
         }
     }
+}
+
+bool collisionHitboxPoint(float XcentreHitbox, float YcentreHitbox, float Xpoint, float Ypoint, float rayon)
+{
+    bool collision = false;
+
+    float distancePoints = sqrt((Xpoint - XcentreHitbox) * (Xpoint - XcentreHitbox) + (Ypoint - YcentreHitbox) * (Ypoint - YcentreHitbox));
+
+    if (distancePoints <= rayon)
+    {
+        collision = true;
+    }
+
+    return collision;
 }
 
 int creerSpriteCourant(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], indicesPNGs indicePNG, int posXfenetreVirtuelle, int posYfenetreVirtuelle)
@@ -284,7 +318,7 @@ void faireAvancerParalaxe(spriteCourant_t *listeCourants[tailleMaxSpritesCourant
 
                 if (listeCourants[i]->posXfenetreVirtuelle <= -wFenetreVirtuelle) // dégueulasse, c'est pas du tout paramètrable mdr
                 {
-                    listeCourants[i]->posXfenetreVirtuelle = 0;
+                    listeCourants[i]->posXfenetreVirtuelle = 0.0;
                 }
                 else
                 {
