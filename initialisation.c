@@ -51,7 +51,7 @@ void init(SDL_Window *window, SDL_Renderer *renderer, spriteBase_t *spritesDeBas
             spritesDeBase[i]->nbrImagesVerticales = 1;
             spritesDeBase[i]->wCoefReductionDestination = 2.0;
             spritesDeBase[i]->hCoefReductionDestination = 1.0;
-            spritesDeBase[i]->speedFondX = -6.0;
+            spritesDeBase[i]->speedDecorX = -6.0;
         }
         else if (i == indiceFond2)
         {
@@ -60,7 +60,7 @@ void init(SDL_Window *window, SDL_Renderer *renderer, spriteBase_t *spritesDeBas
             spritesDeBase[i]->nbrImagesVerticales = 1;
             spritesDeBase[i]->wCoefReductionDestination = 2.0;
             spritesDeBase[i]->hCoefReductionDestination = 1.0;
-            spritesDeBase[i]->speedFondX = -3.0;
+            spritesDeBase[i]->speedDecorX = -3.0;
         }
         else if (i == indiceFond3)
         {
@@ -69,7 +69,7 @@ void init(SDL_Window *window, SDL_Renderer *renderer, spriteBase_t *spritesDeBas
             spritesDeBase[i]->nbrImagesVerticales = 1;
             spritesDeBase[i]->wCoefReductionDestination = 2.0;
             spritesDeBase[i]->hCoefReductionDestination = 1.0;
-            spritesDeBase[i]->speedFondX = 0.0;
+            spritesDeBase[i]->speedDecorX = 0.0;
         }
         else if (i == indicePasserelleAnimee)
         {

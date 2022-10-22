@@ -104,17 +104,22 @@
 //     tableauCombattants[indiceEmplacement] = emplacementestAttaquant;
 // }
 
-
-void faireAvancerPerso(perso_t *listePersos[NBRMAXPERSOS]){
-    for(int i=0; i<NBRMAXPERSOS; i++){
-        if(listePersos[i] != NULL){
-        listePersos[i]->spriteCourant->xProportionPosFenetre += listePersos[i]->speedX;
-        listePersos[i]->spriteCourant->yProportionPosFenetre += listePersos[i]->speedY;
+void faireAvancerPerso(perso_t *listePersos[NBRMAXPERSOS])
+{
+    for (int i = 0; i < NBRMAXPERSOS; i++)
+    {
+        if (listePersos[i] != NULL)
+        {
+            if (listePersos[i]->goSeDeplacer)
+            {
+                listePersos[i]->spriteCourant->posXfenetreVirtuelle += listePersos[i]->speedPersoX;
+                listePersos[i]->spriteCourant->posYfenetreVirtuelle += listePersos[i]->speedPersoY;
+            }
         }
     }
 }
 
-int creerSpriteCourant(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], indicesPNGs indicePNG, float proportionPosX, float proportionPosY)
+int creerSpriteCourant(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], indicesPNGs indicePNG, int posXfenetreVirtuelle, int posYfenetreVirtuelle)
 {
 
     int emplacementLibreDansListeCourants = 0;
@@ -132,8 +137,8 @@ int creerSpriteCourant(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t
 
     maillonSpriteCourant->spriteDeBase = spritesDeBase[indicePNG];
 
-    maillonSpriteCourant->xProportionPosFenetre = proportionPosX;
-    maillonSpriteCourant->yProportionPosFenetre = proportionPosY;
+    maillonSpriteCourant->posXfenetreVirtuelle = posXfenetreVirtuelle;
+    maillonSpriteCourant->posYfenetreVirtuelle = posYfenetreVirtuelle;
 
     maillonSpriteCourant->animationTerminee = 0;
     maillonSpriteCourant->numImageEnCours = 0;
@@ -193,7 +198,7 @@ void cleanListeCourants(spriteCourant_t *listeCourants[tailleMaxSpritesCourants]
 //         {
 //             if (tableauCombattants[i]->typeCombattant >= familleCombattants && tableauCombattants[i]->typeCombattant <= familleCombattants + 2)
 //             {
-//                 if (etatArrivee == MORT)
+//                 if (etatArrivee == MOgoSeDeplacerRT)
 //                 {
 //                     if (familleCombattants == BUGFIRE)
 //                     {
@@ -277,13 +282,13 @@ void faireAvancerParalaxe(spriteCourant_t *listeCourants[tailleMaxSpritesCourant
             if (listeCourants[i]->spriteDeBase->indicePNG >= indiceFond1 && listeCourants[i]->spriteDeBase->indicePNG <= indiceFond3)
             {
 
-                if (listeCourants[i]->xProportionPosFenetre <= -wFenetreVirtuelle) // dégueulasse, c'est pas du tout paramètrable mdr
+                if (listeCourants[i]->posXfenetreVirtuelle <= -wFenetreVirtuelle) // dégueulasse, c'est pas du tout paramètrable mdr
                 {
-                    listeCourants[i]->xProportionPosFenetre = 0.0;
+                    listeCourants[i]->posXfenetreVirtuelle = 0;
                 }
                 else
                 {
-                    listeCourants[i]->xProportionPosFenetre += listeCourants[i]->spriteDeBase->speedFondX;
+                    listeCourants[i]->posXfenetreVirtuelle += listeCourants[i]->spriteDeBase->speedDecorX;
                 }
             }
         }

@@ -14,8 +14,6 @@ int main()
     // int listeCompo[20][3] = {{BUGFIRE, -1, -1}, {FLY, -1, -1}, {MANTIS, -1, -1}, {BUGFIRE, BUGFIRE, -1}, {FLY, FLY, -1}, {MANTIS, MANTIS, -1}, {BUGFIRE, FLY, -1}, {BUGFIRE, MANTIS, -1}, {FLY, MANTIS, -1}, {BUGFIRE, BUGFIRE, BUGFIRE}, {FLY, FLY, FLY}, {MANTIS, MANTIS, MANTIS}, {BUGFIRE, BUGFIRE, FLY}, {BUGFIRE, BUGFIRE, MANTIS}, {BUGFIRE, FLY, FLY}, {FLY, FLY, MANTIS}, {BUGFIRE, MANTIS, MANTIS}, {FLY, MANTIS, MANTIS}, {BUGFIRE, FLY, MANTIS}};
     // // int listeCompo[34][4] = {{BUGFIRE, -1, -1, -1}, {FLY, -1, -1, -1}, {MANTIS, -1, -1, -1}, {BUGFIRE, BUGFIRE, -1, -1}, {FLY, FLY, -1, -1}, {MANTIS, MANTIS, -1, -1}, {BUGFIRE, FLY, -1, -1}, {BUGFIRE, MANTIS, -1, -1}, {FLY, MANTIS, -1, -1}, {BUGFIRE, BUGFIRE, BUGFIRE, -1}, {FLY, FLY, FLY, -1}, {MANTIS, MANTIS, MANTIS, -1}, {BUGFIRE, BUGFIRE, FLY, -1}, {BUGFIRE, BUGFIRE, MANTIS, -1}, {BUGFIRE, FLY, FLY, -1}, {FLY, FLY, MANTIS, -1}, {BUGFIRE, MANTIS, MANTIS, -1}, {FLY, MANTIS, MANTIS, -1}, {BUGFIRE, FLY, MANTIS, -1}, {BUGFIRE, BUGFIRE, BUGFIRE, BUGFIRE}, {FLY, FLY, FLY, FLY}, {MANTIS, MANTIS, MANTIS, MANTIS}, {BUGFIRE, BUGFIRE, BUGFIRE, FLY}, {BUGFIRE, BUGFIRE, BUGFIRE, MANTIS}, {BUGFIRE, FLY, FLY, FLY}, {FLY, FLY, FLY, MANTIS}, {BUGFIRE, MANTIS, MANTIS, MANTIS}, {FLY, MANTIS, MANTIS, MANTIS}, {BUGFIRE, BUGFIRE, MANTIS, MANTIS}, {BUGFIRE, BUGFIRE, FLY, FLY}, {BUGFIRE, BUGFIRE, FLY, MANTIS}, {FLY, FLY, MANTIS, MANTIS}, {BUGFIRE, FLY, FLY, MANTIS}, {BUGFIRE, FLY, MANTIS, MANTIS}};
 
-
-
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
 
@@ -86,38 +84,47 @@ int main()
 
     // ETATJEU = ACCUEIL;
     int ETATJEU = ACCUEIL;
-    int changermusique = 1;
+    bool changermusique = true;
+    int posXsourisFenetreReelle, posYsourisFenetreReelle;
     // int compteurAnimationMort = 0;
     // int nombreInsectesMorts = 0;
     // int numeroDeVague = 0;
     // int compteurDeCoups = 0;
     // int modeAffichage = 1;
 
-
-
     creerSpriteCourant(spritesDeBase, listeCourants, indiceFondAccueil, 0.0, 0.0);
 
     while (program_on)
     {
         // Voilà la boucle des évènements
-        int interessant = 0;
+        bool interessant = false;
         // int choixFait = 0;
 
         // *************************  Gestion des evenements *****************************
         //
         // *******************************************************************************
 
-        while ((interessant == 0) && (SDL_PollEvent(&event)))
+        while (!interessant && (SDL_PollEvent(&event)))
         { // tant que la file d'évènements n'est pas vide : défiler l'élément en tête et l'on a pas d'évènements interessants à traiter
             // de file dans 'event'
             switch (event.type)
             {
             case SDL_QUIT:
-                interessant = 1;        // Un évènement simple, on a cliqué sur la x de la fenêtre
+                interessant = true;        // Un évènement simple, on a cliqué sur la x de la fenêtre
                 program_on = SDL_FALSE; // Il est temps d'arrêter le programme
                 break;
             case SDL_MOUSEBUTTONUP:
-                
+                if (event.button.button == SDL_BUTTON_RIGHT)
+                {
+                    SDL_GetMouseState(&posXsourisFenetreReelle, &posYsourisFenetreReelle);
+                    printf("posX : %d posY : %d\n", posXsourisFenetreReelle, posYsourisFenetreReelle);
+                    listePersos[0]->goSeDeplacer = true;
+
+
+
+
+                    interessant = true;
+                }
 
                 break;
             case SDL_KEYUP: // Le type de event est : une touche relâchée
@@ -125,31 +132,31 @@ int main()
                 switch (event.key.keysym.sym)
                 { // la touche appuyée est ...
                 case SDLK_ESCAPE:
-                    interessant = 1;
+                    interessant = true;
                     program_on = SDL_FALSE;
                     break;
                 case SDLK_SPACE:
                     if (ETATJEU == ACCUEIL)
                     {
-                        cleanListeCourants(listeCourants);
-                        creerSpriteCourant(spritesDeBase, listeCourants, indiceLore1, 0.0, 0.0);
-                        // numeroDeVague = 0;
-                        ETATJEU = LORE1;
-                    }
-                    else if (ETATJEU == LORE1)
-                    {
-                        cleanListeCourants(listeCourants);
-                        creerSpriteCourant(spritesDeBase, listeCourants, indiceLore2, 0.0, 0.0);
-                        ETATJEU = LORE2;
-                    }
-                    else if (ETATJEU == LORE2)
-                    {
-                        cleanListeCourants(listeCourants);
-                        creerSpriteCourant(spritesDeBase, listeCourants, indiceLore3, 0.0, 0.0);
-                        ETATJEU = LORE3;
-                    }
-                    else if (ETATJEU == LORE3)
-                    {
+                    //     cleanListeCourants(listeCourants);
+                    //     creerSpriteCourant(spritesDeBase, listeCourants, indiceLore1, 0, 0);
+                    //     // numeroDeVague = 0;
+                    //     ETATJEU = LORE1;
+                    // }
+                    // else if (ETATJEU == LORE1)
+                    // {
+                    //     cleanListeCourants(listeCourants);
+                    //     creerSpriteCourant(spritesDeBase, listeCourants, indiceLore2, 0, 0);
+                    //     ETATJEU = LORE2;
+                    // }
+                    // else if (ETATJEU == LORE2)
+                    // {
+                    //     cleanListeCourants(listeCourants);
+                    //     creerSpriteCourant(spritesDeBase, listeCourants, indiceLore3, 0, 0);
+                    //     ETATJEU = LORE3;
+                    // }
+                    // else if (ETATJEU == LORE3)
+                    // {
                         cleanListeCourants(listeCourants);
                         // cleanListeCombattants(listeCombattants);
                         creerSpriteCourant(spritesDeBase, listeCourants, indiceFond3, 0.0, 0.0);
@@ -158,23 +165,24 @@ int main()
                         // creerSpriteCourant(spritesDeBase, listeCourants, indiceBatiment2coupe, 0.0, 0.0);
                         // creerSpriteCourant(spritesDeBase, listeCourants, indiceFond, 0.0, 0.0);
                         creerSpriteCourant(spritesDeBase, listeCourants, indicePasserelleAnimee, 0.0, 0.0);
-                        creerSpriteCourant(spritesDeBase, listeCourants, indiceBatiment2, -0.12*wFenetreVirtuelle, 0.27*hFenetreVirtuelle);
+                        creerSpriteCourant(spritesDeBase, listeCourants, indiceBatiment2, -180.0, 270.0);
                         // creationVague(spritesDeBase, listeCombattants, listeCourants, modeAffichage);
 
                         perso_t *maillonPerso = malloc(sizeof(perso_t));
-                        maillonPerso->speedX= 10.0;
-                        maillonPerso->speedY=0.0;
+                        maillonPerso->speedPersoX = 5.3;
+                        maillonPerso->speedPersoY = 1.2;
+                        maillonPerso->goSeDeplacer = true;
 
                         int indiceEmplacementDansListeCourants = creerSpriteCourant(spritesDeBase, listeCourants, indiceRobotGrosattaque, 50.0, 50.0);
                         maillonPerso->spriteCourant = listeCourants[indiceEmplacementDansListeCourants];
-                        listePersos[0]=maillonPerso;
-                        printf("salut\n");
+                        listePersos[0] = maillonPerso;
+                        // printf("salut\n");
 
                         // numeroDeVague++;
                         ETATJEU = JEU;
                     }
-                    interessant = 1;
-                    changermusique = 1;
+                    interessant = true;
+                    changermusique = true;
                     break;
                 case SDLK_q:
 
@@ -184,17 +192,17 @@ int main()
                         creerSpriteCourant(spritesDeBase, listeCourants, indiceFondAccueil, 0.0, 0.0);
                         ETATJEU = ACCUEIL;
                     }
-                    interessant = 1;
-                    changermusique = 1;
+                    interessant = true;
+                    changermusique = true;
                     break;
                 case SDLK_g:
-                       
+
                     break;
                 case SDLK_p:
-                       
+
                     break;
                 case SDLK_m:
-                       
+
                     break;
                 case SDLK_t:
 
@@ -210,42 +218,42 @@ int main()
         switch (ETATJEU)
         {
         case ERREUR:
-            // printf("ETATJEU == ERREUR\n");
+            printf("ETATJEU == ERREUR\n");
             break;
         case ACCUEIL:
             // printf("Accueil\n");
-            if (changermusique == 1)
+            if (changermusique)
             {
                 Mix_PlayMusic(accueil, -1);
             }
             animation(window, renderer, listeCourants);
             break;
-        case LORE1:
-            // printf("lore1\n");
-            if (changermusique == 1)
-            {
-                Mix_PlayMusic(lore1, 0);
-            }
-            animation(window, renderer, listeCourants);
-            break;
-        case LORE2:
-            // printf("lore2\n");
-            if (changermusique == 1)
-            {
-                Mix_PlayMusic(lore2, 0);
-            }
-            animation(window, renderer, listeCourants);
+        // case LORE1:
+        //     // printf("lore1\n");
+        //     if (changermusique == 1)
+        //     {
+        //         Mix_PlayMusic(lore1, 0);
+        //     }
+        //     animation(window, renderer, listeCourants);
+        //     break;
+        // case LORE2:
+        //     // printf("lore2\n");
+        //     if (changermusique == 1)
+        //     {
+        //         Mix_PlayMusic(lore2, 0);
+        //     }
+        //     animation(window, renderer, listeCourants);
 
-            break;
-        case LORE3:
-            // printf("lore3\n");
-            if (changermusique == 1)
-            {
-                Mix_PlayMusic(lore3, 0);
-            }
-            animation(window, renderer, listeCourants);
+        //     break;
+        // case LORE3:
+        //     // printf("lore3\n");
+        //     if (changermusique == 1)
+        //     {
+        //         Mix_PlayMusic(lore3, 0);
+        //     }
+        //     animation(window, renderer, listeCourants);
 
-            break;
+        //     break;
         case JEU:
             // printf("ARRIVEEVAGUE\n");
             // printf("vague\n");
@@ -254,10 +262,10 @@ int main()
             //     Mix_PlayMusic(jeu, -1);
             // }
 
-          animation(window, renderer, listeCourants);
-          printf("resalut\n");
-          faireAvancerPerso(listePersos);
-          printf("resalgzrgzrut\n");
+            animation(window, renderer, listeCourants);
+            //   printf("resalut\n");
+            faireAvancerPerso(listePersos);
+            //   printf("resalgzrgzrut\n");
             break;
         case FINJEU:
             // printf("fin du jeu\n");
@@ -271,9 +279,10 @@ int main()
             break;
         }
 
-        changermusique = 0;
+        changermusique = false;
 
-        if(ETATJEU == JEU){
+        if (ETATJEU == JEU)
+        {
             faireAvancerParalaxe(listeCourants);
         }
 

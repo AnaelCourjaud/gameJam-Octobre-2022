@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
 
 // extern int ETATJEU;
 
@@ -153,7 +154,8 @@ typedef struct spriteBase
     int wImageSprite;
     int hImageSprite;
 
-    float speedFondX;
+    float speedDecorX;
+    float speedDecorY;
 
     // int animation;
     int animationInfinie;
@@ -178,8 +180,8 @@ typedef struct spriteCourant
 
     struct spriteBase *spriteDeBase;
 
-    float xProportionPosFenetre;
-    float yProportionPosFenetre;
+    float posXfenetreVirtuelle;
+    float posYfenetreVirtuelle;
 
     // SDL_Rect source;
     // SDL_Rect destination;
@@ -193,15 +195,16 @@ typedef struct spriteCourant
 typedef struct perso{
     struct spriteCourant *spriteCourant;
 
-    float speedX;
-    float speedY;
+    float speedPersoX;
+    float speedPersoY;
+    bool goSeDeplacer;
 
 } perso_t;
 
 // typedef struct combattant
 // {
 
-//     struct spriteCourant *spriteCourant;
+//     struct spriteCourant *spriteCourant;float
 
 //     enum typeC typeCombattant;
 //     enum typeE etatCombattant;

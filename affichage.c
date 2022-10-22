@@ -64,8 +64,8 @@ void animation(SDL_Window *window, SDL_Renderer *renderer, spriteCourant_t *list
             source.w = listeCourants[i]->spriteDeBase->wImageSprite;
             source.h = listeCourants[i]->spriteDeBase->hImageSprite;
 
-            destination.x = window_dimensions.w * (listeCourants[i]->xProportionPosFenetre/wFenetreVirtuelle);
-            destination.y = window_dimensions.h * (listeCourants[i]->yProportionPosFenetre/hFenetreVirtuelle);
+            destination.x = (window_dimensions.w * listeCourants[i]->posXfenetreVirtuelle)/wFenetreVirtuelle;
+            destination.y = (window_dimensions.h * listeCourants[i]->posYfenetreVirtuelle)/hFenetreVirtuelle;
             destination.w = window_dimensions.w * listeCourants[i]->spriteDeBase->wCoefReductionDestination;
             destination.h = window_dimensions.h * listeCourants[i]->spriteDeBase->hCoefReductionDestination;
 

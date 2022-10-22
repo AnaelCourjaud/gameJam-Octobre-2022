@@ -8,7 +8,7 @@
 // void creationVague(spriteBase_t *spritesDeBase[NBRTEXTURES], combattant_t *tableauCombattants[NBRMAXCOMBATTANTS], spriteCourant_t *listeCourant[tailleMaxSpritesCourants], int modeAffichage); // il faut bien que listeCombattants soit vide à l'execution de cette fonction
 
 // void creerAttaquant(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], combattant_t *tableauCombattants[NBRMAXCOMBATTANTS], typeCombattant_t typeCombattant, etatCombattant_t etatArrivee, int indiceEmplacement, float posX, float posY, int modeAffichage);
-int creerSpriteCourant(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], indicesPNGs indicePNG, float posX, float posY);
+int creerSpriteCourant(spriteBase_t *spritesDeBase[NBRTEXTURES], spriteCourant_t *listeCourants[tailleMaxSpritesCourants], indicesPNGs indicePNG, int posXfenetreVirtuelle, int posYfenetreVirtuelle);
 void faireAvancerPerso(perso_t *listePersos[NBRMAXPERSOS]);
 void cleanListeCourants(spriteCourant_t *listeCourants[tailleMaxSpritesCourants]);
 // void cleanCombattantsDeListeCourants(spriteCourant_t *listeCourants[tailleMaxSpritesCourants]);
